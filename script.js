@@ -43,6 +43,27 @@ function carica() {
 }
 
 
+function salva() {
+    return fetch('https://ws.cipiaceinfo.it/cache/set', {
+        headers: {
+            'Content-Type': 'application/json',
+            key: myToken,
+        },
+        method: 'POST',
+        body: JSON.stringify({
+            key: myKey,
+            value: diz,
+        }),
+        })
+        .then((r) => r.json())
+        .then((r) => {
+            console.log('Dati salvati:', r);
+            return r;
+        })
+        .catch((err) => console.log('Errore durante il salvataggio:', err));
+}
+
+
 
 /////////////////////////////////////////////////////////////////////////////////////MODALE////////////////////////////////////////////////////////
 const modalContainer = document.getElementById('modal-container');
