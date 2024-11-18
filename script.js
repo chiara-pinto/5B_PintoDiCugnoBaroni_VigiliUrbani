@@ -1,5 +1,7 @@
+/////////////////////////////////////////////////////////////////////////////////////MODALE////////////////////////////////////////////////////////
 const modalContainer = document.getElementById('modal-container');
 
+//generazione modale
 modalContainer.innerHTML += `
   <button id="apriBtn" class="btn btn-primary">Aggiungi Incidente</button>
 
@@ -53,6 +55,7 @@ modalContainer.innerHTML += `
 </div>
 `;
 
+//apertura e chiusura della modale
 document.getElementById('apriBtn').onclick = () => {
   document.getElementById('incidenteModal').style.display = 'block';
 };
@@ -61,6 +64,7 @@ document.getElementById('cancelButton').onclick = () => {
   document.getElementById('incidenteModal').style.display = 'none';
 };
 
+//funzione per invio del nuovo incidente
 document.getElementById('submit').onclick = () => {
   const indirizzo = document.getElementById('indirizzo').value;
   const targhe = document
@@ -84,12 +88,15 @@ document.getElementById('submit').onclick = () => {
     descrizione,
   };
 
+  //aggiungo l'incidente alla lista
   incidenti.push(nuovoIncidente);
   render();
   document.getElementById('incidenteModal').style.display = 'none';
 };
 
-const map = L.map('map').setView([45.4642, 9.19], 11); // Coordinate di Milano
+
+///////////////////////////////////////////////////////////////////MAPPA////////////////////////////////////////////////////////////////////////////
+const map = L.map('map').setView([45.4642, 9.19], 11); //coordinate di Milano
 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
   maxZoom: 19,
   attribution: '© OpenStreetMap contributors',
@@ -100,7 +107,7 @@ const tableContainer = document.getElementById('table-container');
 let incidenti = [];
 let searchTerm = '';
 
-// Dati degli incidenti
+// dati incidenti
 incidenti = [
   {
     id: 1,
@@ -144,7 +151,7 @@ incidenti = [
   },
 ];
 
-// Funzione per ottenere le coordinate (latitudine e longitudine) tramite Nominatim
+//funzione per ottenere le coordinate (latitudine e longitudine) tramite Nominatim
 function getCoordinates(indirizzo, callback) {
   const url = `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(indirizzo)}`;//``
   fetch(url)
@@ -161,7 +168,7 @@ function getCoordinates(indirizzo, callback) {
     .catch((error) => console.error('Errore nel geocoding: ', error));
 }
 
-// Funzione per il rendering della tabella e mappa
+//rendering della tabella e mappa
 function render() {
   let html = '';
 
