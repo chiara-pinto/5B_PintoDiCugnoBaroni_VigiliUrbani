@@ -10,8 +10,9 @@ fetch('./conf.json') // carica le variabili da conf.json
   .then((data) => {
     myToken = data.cacheToken;
     myKey = data.myKey;
-    //tokenMap = data.TokenLocationIQ;
-    tokenMap = "pk.170f748d8174f53a0d37c0e0d3deddd7";
+    tokenMap = data.TokenLocationIQ;
+    ;
+    //tokenMap = "pk.170f748d8174f53a0d37c0e0d3deddd7";
 
     console.log(myKey);
     console.log(myToken);
@@ -198,7 +199,7 @@ incidenti = [
 
 //funzione per ottenere le coordinate (latitudine e longitudine) tramite Nominatim
 function getCoordinates(indirizzo, callback){
-  const url = `https://us1.locationiq.com/v1/search.php?key=${tokenMap}&q=${indirizzo}&format=json`;
+    let url = `https://us1.locationiq.com/v1/search?key=${tokenMap}&q=${encodeURIComponent(indirizzo)}&format=json`;
   fetch(url)
     .then((response) => response.json())
     .then((data) => {
