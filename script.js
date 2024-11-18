@@ -1,6 +1,5 @@
 const modalContainer = document.getElementById('modal-container');
 
-// Generazione della modale per aggiungere un nuovo incidente
 modalContainer.innerHTML += `
   <button id="apriBtn" class="btn btn-primary">Aggiungi Incidente</button>
 
@@ -53,3 +52,39 @@ modalContainer.innerHTML += `
     </div>
 </div>
 `;
+
+document.getElementById('apriBtn').onclick = () => {
+  document.getElementById('incidenteModal').style.display = 'block';
+};
+
+document.getElementById('cancelButton').onclick = () => {
+  document.getElementById('incidenteModal').style.display = 'none';
+};
+
+document.getElementById('submit').onclick = () => {
+  const indirizzo = document.getElementById('indirizzo').value;
+  const targhe = document
+    .getElementById('targhe')
+    .value.split(',')
+    .map((t) => t.trim());
+  const dataOra = document.getElementById('dataOra').value;
+  const [data, ora] = dataOra.split('T');
+  const numFeriti = parseInt(document.getElementById('feriti').value, 10);
+  const numMorti = parseInt(document.getElementById('morti').value, 10);
+  const descrizione = document.getElementById('descrizione').value;
+
+  const nuovoIncidente = {
+    id: incidenti.length + 1,
+    data,
+    ora,
+    indirizzo,
+    targhe,
+    numFeriti,
+    numMorti,
+    descrizione,
+  };
+
+  incidenti.push(nuovoIncidente);
+  render();
+  document.getElementById('incidenteModal').style.display = 'none';
+};
