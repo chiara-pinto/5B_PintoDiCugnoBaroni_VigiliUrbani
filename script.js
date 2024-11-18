@@ -1,3 +1,21 @@
+let myToken, myKey, tokenMap;
+fetch('./conf.json') // carica le variabili da conf.json
+  .then((response) => {
+    if (!response.ok) {
+      console.log('Errore nel caricamento del file JSON');
+    }
+    return response.json();
+  })
+  .then((data) => {
+    myToken = data.cacheToken;
+    myKey = data.myKey;
+    tokenMap = data.TokenLocationIQ;
+    console.log(myKey);
+    console.log(myToken);
+    console.log(tokenMap);
+  })
+  .catch((error) => console.error('Errore:', error));
+
 /////////////////////////////////////////////////////////////////////////////////////MODALE////////////////////////////////////////////////////////
 const modalContainer = document.getElementById('modal-container');
 
@@ -107,7 +125,7 @@ const tableContainer = document.getElementById('table-container');
 let incidenti = [];
 let searchTerm = '';
 
-// dati incidenti
+//dati incidenti/////////////////////////////////////////////////////////////DOPO TOGLIERE///////////////////////
 incidenti = [
   {
     id: 1,
@@ -152,8 +170,8 @@ incidenti = [
 ];
 
 //funzione per ottenere le coordinate (latitudine e longitudine) tramite Nominatim
-function getCoordinates(indirizzo, callback) {
-  const url = `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(indirizzo)}`;//``
+function getCoordinates(indirizzo, callback){
+    let url = `https://us1.locationiq.com/v1/search?key=${tokenMap}&q=${encodeURIComponent(indirizzo)}&format=json`;
   fetch(url)
     .then((response) => response.json())
     .then((data) => {
