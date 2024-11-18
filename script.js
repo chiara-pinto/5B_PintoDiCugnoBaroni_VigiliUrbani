@@ -1,17 +1,55 @@
-// Inizializzazione della mappa
-const map = L.map('map').setView([45.4642, 9.19], 12); // Coordinate di Milano
+const modalContainer = document.getElementById('modal-container');
 
-// Aggiunta del layer di OpenStreetMap
-L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    maxZoom: 19,
-    attribution: '© OpenStreetMap contributors'
-}).addTo(map);
+// Generazione della modale per aggiungere un nuovo incidente
+modalContainer.innerHTML += `
+  <button id="apriBtn" class="btn btn-primary">Aggiungi Incidente</button>
 
-// Funzione per aggiungere un marcatore alla mappa
-function addMarkerToMap(lat, lng, text) {
-    const marker = L.marker([lat, lng]).addTo(map);
-    marker.bindPopup(text);
-}
+  <div id="incidenteModal" class="modal" tabindex="-1">
+    <div class="modal-dialog">
+      <div class="modal-content">
 
-// Aggiunta di un marcatore iniziale
-addMarkerToMap(45.4642, 9.19, "Centro di Milano");
+        <div class="modal-header">
+          <h1 class="modal-title fs-5">Aggiungi Incidente</h1>
+        </div>
+
+        <div class="modal-body">
+          <form id="incidenteForm">
+
+            <div class="form-group">
+              <label for="indirizzo">Indirizzo</label>
+              <input type="text" class="form-control" id="indirizzo" required>
+            </div>
+
+            <div class="form-group">
+              <label for="targhe">Targhe (separate da virgola)</label>
+              <input type="text" class="form-control" id="targhe" required>
+            </div>
+
+            <div class="form-group">
+              <label for="dataOra">Data e Ora</label>
+              <input type="datetime-local" class="form-control" id="dataOra" required>
+            </div>
+
+            <div class="form-group">
+              <label for="feriti">Numero feriti</label>
+              <input type="number" class="form-control" id="feriti" min="0" required>
+            </div>
+<div class="form-group">
+              <label for="morti">Numero morti</label>
+              <input type="number" class="form-control" id="morti" min="0" required>
+            </div>
+
+            <div class="form-group">
+              <label for="descrizione">Descrizione</label>
+              <textarea class="form-control" id="descrizione" required></textarea>
+            </div>
+
+            <button type="button" id="submit" class="btn btn-primary">Invia</button>
+            <button type="button" id="cancelButton" class="btn btn-secondary">Annulla</button>
+            
+          </form>
+        </div>
+      </div>
+    </div>
+</div>
+`;
