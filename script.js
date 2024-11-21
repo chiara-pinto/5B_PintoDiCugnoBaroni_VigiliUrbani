@@ -1,5 +1,5 @@
 let myToken, myKey, tokenMap, map;
-let renderTable;
+let renderTable; // funzione globale
 let incidenti = [
   {
     id: 1,
@@ -53,7 +53,7 @@ function loadConfig() {
         return response.json();
       })
       .then((data) => {
-        resolve(data); // Risolve la Promise con i dati
+        resolve(data); // risolvo la promise con i dati
       })
       .catch((error) => reject('Errore: ' + error));
   });
@@ -65,7 +65,7 @@ loadConfig()
     myKey = data.myKey;
     tokenMap = data.TokenLocationIQ;
 
-    console.log(tokenMap); // Eseguito solo quando i dati sono caricati
+    console.log(tokenMap);
     console.log(myKey);
     console.log(myToken);
 
@@ -78,7 +78,7 @@ loadConfig()
 function createIncidenteModal(parentElement) {
   const modalContainer = parentElement;
 
-  // Generazione HTML della modale
+  // HTML della modale
   const modalHTML = `
     <button id="apriBtn" class="btn btn-primary">Aggiungi Incidente</button>
 
@@ -132,10 +132,8 @@ function createIncidenteModal(parentElement) {
     </div>
   `;
 
-  // Inserisco il HTML nel targetContainer
   modalContainer.innerHTML += modalHTML;
 
-  // Aggiungo gli eventi di apertura e chiusura
   const modal = document.getElementById('incidenteModal');
   const apriBtn = document.getElementById('apriBtn');
   const cancelButton = document.getElementById('cancelButton');
@@ -171,7 +169,7 @@ function createIncidenteModal(parentElement) {
 
     // Aggiungo l'incidente alla lista
     incidenti.push(nuovoIncidente);
-    renderTable(); // Funzione di rendering, che aggiorna la lista degli incidenti
+    renderTable(); // funzione che aggiorna la lista degli incidenti
     modal.style.display = 'none'; // Chiudo la modale
   };
 }
@@ -237,7 +235,7 @@ function createTable(parentElement, tokenMap){
       `;
 
       // aggiungo un marcatore
-      setTimeout(() => { //429
+      setTimeout(() => { // metto il setTimeout per irsolvere il 429
         getCoordinates(incidente.indirizzo, tokenMap).then(({ lat, lon }) => {
           if (lat && lon) {
             L.marker([lat, lon])
@@ -283,12 +281,12 @@ function getCoordinates(indirizzo, tokenMap) {
           resolve({ lat, lon });  // Risolve la Promise con le coordinate
         } else {
           console.log('Indirizzo non trovato:', indirizzo);
-          reject('Indirizzo non trovato');  // Rifiuta la Promise se l'indirizzo non è trovato
+          reject('Indirizzo non trovato');
         }
       })
       .catch((error) => {
         console.error('Errore nel geocoding:', error);
-        reject('Errore nel geocoding');  // Rifiuta la Promise in caso di errore
+        reject('Errore nel geocoding');
       });
   });
 }
