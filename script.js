@@ -1,47 +1,12 @@
+import { carica, salva, incidenti } from './carica_salva.js';
+
+const modalContainer = document.getElementById('modal-container');
+const mapContainer = document.getElementById('map-container');
+const tableContainer = document.getElementById('table-container');
+
+
 let myToken, myKey, tokenMap, map;
 let renderTable; // funzione globale
-let incidenti = [
-  {
-    id: 1,
-    indirizzo: 'Viale Abruzzi 12, Milano',
-    targhe: ['AB123CD', 'EF456GH', 'IJ789KL'],
-    data: '2024-11-14',
-    ora: '16:45',
-    numFeriti: 2,
-    numMorti: 0,
-    descrizione: 'Tamponamento a catena',
-  },
-  {
-    id: 2,
-    indirizzo: 'Corso Buenos Aires 15, Milano',
-    targhe: ['MN123OP', 'QR456ST'],
-    data: '2024-11-13',
-    ora: '09:10',
-    numFeriti: 1,
-    numMorti: 0,
-    descrizione: 'Investimento pedonale',
-  },
-  {
-    id: 3,
-    indirizzo: 'Piazza Duomo 1, Milano',
-    targhe: ['UV789WX'],
-    data: '2024-11-12',
-    ora: '12:50',
-    numFeriti: 0,
-    numMorti: 1,
-    descrizione: 'Scontro tra taxi',
-  },
-  {
-    id: 4,
-    indirizzo: 'Via Torino 5, Milano',
-    targhe: ['YZ123AB', 'CD456EF'],
-    data: '2024-11-11',
-    ora: '18:30',
-    numFeriti: 3,
-    numMorti: 0,
-    descrizione: 'Incidente con feriti lievi',
-  },
-];
 
 function loadConfig() {
   return new Promise((resolve, reject) => {
@@ -68,8 +33,13 @@ loadConfig()
     console.log(tokenMap);
     console.log(myKey);
     console.log(myToken);
+    carica().then(() => {
+      //console.log("aAAAAAAAAAA   ",incidenti);
+      render(tokenMap);
+      createTable(tableContainer, tokenMap);
+    })
 
-    render(tokenMap);
+    //render(tokenMap);
   
   })
   .catch((error) => console.error(error));
@@ -169,6 +139,7 @@ function createIncidenteModal(parentElement) {
 
     // Aggiungo l'incidente alla lista
     incidenti.push(nuovoIncidente);
+    salva()
     renderTable(); // funzione che aggiorna la lista degli incidenti
     modal.style.display = 'none'; // Chiudo la modale
   };
@@ -267,7 +238,8 @@ function createTable(parentElement, tokenMap){
 }
 
 function getCoordinates(indirizzo, tokenMap) {
-  let url = `https://us1.locationiq.com/v1/search?key=${tokenMap}&q=${encodeURIComponent(indirizzo)}&format=json`;
+  let ind_mil = indirizzo + ', Milano';
+  let url = `https://us1.locationiq.com/v1/search?key=${tokenMap}&q=${encodeURIComponent(ind_mil)}&format=json`;
   //console.log("url:", url);
 
   // Restituisce una Promise che si risolve con le coordinate
@@ -297,12 +269,10 @@ function getCoordinates(indirizzo, tokenMap) {
 
 
 function render(tokenMap){
-  const modalContainer = document.getElementById('modal-container');
+  
   createIncidenteModal(modalContainer);
 
-  const mapContainer = document.getElementById('map-container');
   createMap(mapContainer);
 
-  const tableContainer = document.getElementById('table-container');
   createTable(tableContainer, tokenMap);
 }
