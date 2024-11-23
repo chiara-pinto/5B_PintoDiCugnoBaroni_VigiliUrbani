@@ -1,5 +1,6 @@
 import { carica, salva, incidenti } from './carica_salva.js';
 
+const loginContainer = document.getElementById('login-container');
 const modalContainer = document.getElementById('modal-container');
 const mapContainer = document.getElementById('map-container');
 const tableContainer = document.getElementById('table-container');
@@ -263,12 +264,72 @@ function getCoordinates(indirizzo, tokenMap) {
   });
 }
 
+function createLogin(parentElement) {
+  const loginContainer = parentElement;
+  //const myToken = "XXXXXXXXXXXXXXXX"; // token ottenuto via mail 
 
+  const loginHTML = `
+  <button id="loginBtn" class="btn btn-primary">login</button>
+
+  <div id="loginModal" class="modal" tabindex="-1" style="display: none;">
+    <div class="modal-dialog">
+      <div class="modal-content">
+
+        <div class="modal-header">
+          <h1 class="modal-title fs-5">Login</h1>
+        </div>
+
+        <div class="modal-body">
+          <form id="loginForm">
+
+            <div class="form-group">
+              <label for="user">User</label>
+              <input type="text" class="form-control" id="user" required>
+            </div>
+
+            <div class="form-group">
+              <label for="password">Password</label>
+              <input type="password" class="form-control" id="password" required>
+            </div>
+
+            <button type="button" id="submitBtn" class="btn btn-primary">Invia</button>
+            <button type="button" id="cancelBtn" class="btn btn-secondary">Annulla</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+`;
+
+  loginContainer.innerHTML += loginHTML;
+
+  const modal = document.getElementById('loginModal');
+  const loginBtn = document.getElementById('loginBtn');
+  const cancelBtn = document.getElementById('cancelBtn');
+  const submitBtn = document.getElementById('submitBtn');
+
+  loginBtn.onclick = () => {
+    modal.style.display = 'block';
+  };
+
+  cancelBtn.onclick = () => {
+    modal.style.display = 'none';
+  };
+
+  submitBtn.onclick = () => {
+    const inputName = document.getElementById('user').value;
+    const inputPassword = document.getElementById('password').value;
+    console.log(inputName);
+    console.log(inputPassword);
+  }
+}
 
 
 
 
 function render(tokenMap){
+
+  createLogin(loginContainer);
   
   createIncidenteModal(modalContainer);
 
