@@ -343,11 +343,10 @@ function createLogin(parentElement, myToken, modal_cont) {
         .catch(reject);
     });
   };
-  
-
 
 
   loginBtn.onclick = () => {
+    loginBtn.style.display = 'none';
     modal.style.display = 'block';
   };
 
