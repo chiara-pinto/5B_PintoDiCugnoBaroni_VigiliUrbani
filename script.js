@@ -5,9 +5,12 @@ const modalContainer = document.getElementById('modal-container');
 const mapContainer = document.getElementById('map-container');
 const tableContainer = document.getElementById('table-container');
 
-
 let myToken, myKey, tokenMap, map;
 let renderTable; // funzione globale
+
+
+let isLogged = false;
+
 
 function loadConfig() {
   return new Promise((resolve, reject) => {
@@ -36,7 +39,7 @@ loadConfig()
     console.log(myToken);
     carica().then(() => {
       //console.log("aAAAAAAAAAA   ",incidenti);
-      render(tokenMap);
+      render(tokenMap, myToken);
       createTable(tableContainer, tokenMap);
     })
 
@@ -110,8 +113,12 @@ function createIncidenteModal(parentElement) {
   const cancelButton = document.getElementById('cancelButton');
   const submitButton = document.getElementById('submit');
 
+
+
   apriBtn.onclick = () => {
+    console.log("PREMENDOOOOOOO")
     modal.style.display = 'block';
+    console.log("Modale mostrata:", modal.style.display);
   };
 
   cancelButton.onclick = () => {
@@ -264,9 +271,8 @@ function getCoordinates(indirizzo, tokenMap) {
   });
 }
 
-function createLogin(parentElement) {
+function createLogin(parentElement, myToken, modal_cont) {
   const loginContainer = parentElement;
-  //const myToken = "XXXXXXXXXXXXXXXX"; // token ottenuto via mail 
 
   const loginHTML = `
   <button id="loginBtn" class="btn btn-primary">login</button>
@@ -308,6 +314,10 @@ function createLogin(parentElement) {
   const cancelBtn = document.getElementById('cancelBtn');
   const submitBtn = document.getElementById('submitBtn');
 
+
+  
+
+
   loginBtn.onclick = () => {
     modal.style.display = 'block';
   };
@@ -316,22 +326,20 @@ function createLogin(parentElement) {
     modal.style.display = 'none';
   };
 
-  submitBtn.onclick = () => {
-    const inputName = document.getElementById('user').value;
-    const inputPassword = document.getElementById('password').value;
-    console.log(inputName);
-    console.log(inputPassword);
-  }
+
+  
+
+
 }
 
 
 
 
-function render(tokenMap){
+function render(tokenMap, myToken){
 
-  createLogin(loginContainer);
+  createLogin(loginContainer, myToken, modalContainer);
   
-  createIncidenteModal(modalContainer);
+  //createIncidenteModal(modalContainer);
 
   createMap(mapContainer);
 
