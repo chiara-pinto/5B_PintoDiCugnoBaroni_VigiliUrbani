@@ -314,6 +314,14 @@ function createLogin(parentElement, myToken, modal_cont) {
   const cancelBtn = document.getElementById('cancelBtn');
   const submitBtn = document.getElementById('submitBtn');
 
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  console.log("isLogged     ",isLogged)
+  apriBtn.style.display = 'none';
+  if (isLogged) {
+      apriBtn.style.display = 'block'; // Mostra il tasto solo se loggato
+  }
+
+
   ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   const login = (username, password) => {
@@ -351,7 +359,22 @@ function createLogin(parentElement, myToken, modal_cont) {
   };
 
 
-  
+  submitBtn.onclick = () => {
+    const inputName = document.getElementById('user').value;
+    const inputPassword = document.getElementById('password').value;
+    login(inputName, inputPassword).then((result) => {
+        if (result) {
+          isLogged = true;
+          console.log("login riuscito");
+          console.log(inputName);
+          console.log(inputPassword);
+          modal.style.display = 'none';
+          createIncidenteModal(modal_cont);
+        } else {
+            console.log("login fallita");
+        }
+    });
+  };
 
 
 }
